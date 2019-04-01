@@ -1,0 +1,173 @@
+<html>
+<head>
+	<style>
+		body{
+			margin: 0;
+		}
+
+		#main{
+			position: relative;
+			height: 600px;
+			width: 600px;
+			background-color: orange;
+		}
+
+		#sub{
+			position: absolute;
+			background-color: red;
+			height: 30px;
+			width: 30px;
+			z-index: 100px;
+		}
+
+		#info{
+			height: 30px;
+			width: 600px;
+			font-size: 30px;
+			text-align: center;
+			background-color: #ccc;
+		}
+
+		#food{
+			position: absolute;
+			height: 30px;
+			width: 30px;
+			background-color: dodgerblue;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div id="sub"></div>
+		<div id="food"></div>
+	</div>
+	<div id="info">0</div>
+		
+	<script>
+		
+		var posX = 0;
+		var posY = 0;
+
+		var vX = 0;
+		var vY = 0;
+
+		var fX = 0;
+		var fY = 0;
+
+		var score = 0;
+
+		start();
+
+		document.onkeydown = divDirection;
+
+		function drawFood(){
+
+			fX = Math.floor(Math.random() * 19 )*30;                //  Math.random() gives random value from 0 to 1. & floor will round
+			fY = Math.floor(Math.random() * 19 )*30;                //  to lower end
+
+			document.getElementById("food").style.left = fX +'px';
+			document.getElementById("food").style.top = fY + 'px';  
+		}
+
+		function updateScore(){
+
+			document.getElementById('info').innerHTML = score;
+			
+		}
+
+		function divDirection(){
+
+			if(event.keyCode == 37)
+			{
+				vX = -30;
+				vY = 0;
+				
+			}
+
+			if(event.keyCode == 38)
+			{
+				vX = 0;
+				vY = -30;
+			}
+
+			if(event.keyCode == 39)
+			{
+				vX = 30;
+				vY = 0;
+			}
+
+			if(event.keyCode == 40)
+			{
+				vX = 0	;
+				vY = 30;
+			}	
+
+		}
+
+		var id;
+
+		function start(){
+			drawFood();
+			score = 0;
+			updateScore();
+			id=setInterval(move,100);
+		}
+
+		function end()
+		{	
+			posX = 0;
+			posY = 0;
+			vX = 0;
+			vY = 0;
+			fX = 0;
+			fY = 0;
+			alert("Game Over \n\nYour score : "+score);
+			clearInterval(id);
+			start();
+		}
+
+		function move(){	
+
+			posX = posX + vX;
+
+			posY = posY + vY;
+
+			if(posX >=571)
+			{
+				// posX = 0;
+				end();
+			}
+
+			if(posY >=571)
+			{
+				// posY = 0;
+				end();
+			}
+
+			if(posX<=-1)
+			{
+				// posX = 570;
+				end();
+			}
+			
+			if(posY <=-1)
+			{
+				// posY = 570;
+				end();
+			}
+
+			if( posX == fX && posY == fY)
+			{
+				score++;
+				drawFood();
+				updateScore();
+			}
+
+			document.getElementById("sub").style.left = posX + "px";	
+			document.getElementById("sub").style.top = posY + "px";
+
+		}
+	</script>
+</body>
+</html>
